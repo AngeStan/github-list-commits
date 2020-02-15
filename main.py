@@ -1,14 +1,19 @@
 print("Welcome to the Git List Retriever Tool")
-help_message = '''Please, select one of the following commands
-GO -> starts the program
-SETTINGS -> change some option
-QUIT -> quit the program'''
-print(help_message)
+paths = {'GO': 'start the program', 'SETTINGS': 'change some option', 'QUIT': 'quit the program'}
+
+
+def help_message():
+    print('\nPlease, select one of the following commands:')
+    for key in paths:
+        print(key, ' -> ', paths[key])
+
+
+help_message()
 
 while True:
     command = input("> ").lower()
     if command == 'help':
-        print(help_message)
+        help_message()
     elif command == 'go':
         print('starting....')
     elif command == 'settings':
@@ -16,4 +21,5 @@ while True:
     elif command == 'quit':
         break
     else:
-        print(f"Command not found!\n{help_message}")
+        print(f"Command not found!")
+        help_message()
