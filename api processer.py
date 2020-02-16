@@ -8,21 +8,18 @@ repo = json_file['repo']'''
 repo = 'freeCodeCamp/freeCodeCamp'
 url_api = 'https://api.github.com/repos/' + repo + '/commits?branch=master'
 number_commits = remaining_commits = 69
-if remaining_commits > 30:
-    page_commits = 30
-else:
-    page_commits = remaining_commits
-sha = starter = 0
+
+last_sha = starter = last_index_commit = 0
 table = []
 
 while remaining_commits > 0:
     if remaining_commits > 30:
-        page_commits = 29
+        last_index_commit = 29
     else:
-        page_commits = remaining_commits
+        last_index_commit = remaining_commits
 
-    if sha != 0:
-        url_api = url_api.split('&')[0] + '&sha=' + str(sha)
+    if last_sha != 0:
+        url_api = url_api.split('&')[0] + '&sha=' + str(last_sha)
         starter = 1
     try:
         json_received = urllib.request.urlopen(url_api)
@@ -37,12 +34,10 @@ while remaining_commits > 0:
         # processing...
         commits = json.loads(json_received.read().decode())
 
-    print(page_commits)
-    for i in range(starter, page_commits + 1):
-        sha = commits[i]['sha']
-        message = commits[i]['commit']['message']
-        url = commits[i]['html_url']
-        table.append({'sha': sha, 'message': message, 'url': url})
+    print(last_index_commit)
+    for i in range(starter, last_index_commit + 1):
+        last_sha = commits[i]['sha']
+        table.append([last_sha, commits[i]['commit']['message'], commits[i]['html_url']])
         remaining_commits -= 1
         print(remaining_commits)
 
