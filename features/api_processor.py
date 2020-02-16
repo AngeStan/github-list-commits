@@ -4,7 +4,7 @@ import urllib.request, urllib.error, json
 def process_api(repo, number_commits):
     url_api = 'https://api.github.com/repos/' + repo + '/commits?branch=master'
     remaining_commits = number_commits
-    last_sha = starter = last_index_commit = 0
+    last_sha = starter = 0
     table = []
 
     def connect(url):
@@ -28,8 +28,6 @@ def process_api(repo, number_commits):
             url_api = url_api.split('&')[0] + '&sha=' + str(last_sha)
             starter = 1
         commits = connect(url_api)
-
-        print(last_index_commit)
 
         for i in range(starter, 30):
             last_sha = commits[i]['sha']

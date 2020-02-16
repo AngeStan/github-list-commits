@@ -1,4 +1,5 @@
 from features.api_processor import *
+from features.output import *
 repo = 'freeCodeCamp/freeCodeCamp'
 
 print(f'''Welcome to the Git List Retriever Tool\n\
@@ -13,4 +14,5 @@ while True:
     except ValueError as error:
         print('You have NOT inserted a number! Please try again')
 
-print(process_api(repo, number))
+table = process_api(repo, number)
+export_csv(table)
