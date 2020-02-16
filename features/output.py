@@ -9,10 +9,12 @@ table = [['bb06330b639c4a212d9472091ee2cbc16fe9e7ae', 'docs: update link to coc'
           "fix: force timezone to be UTC for tests (#38215)\n\nreact-calendar-heatmap's output depends on the timezone, which means\r\nthat snapshots can fail if the timezone changes.  This sets the timezone\r\nas UTC during client tests to avoid that problem.",
           'https://github.com/freeCodeCamp/freeCodeCamp/commit/cc79999a31b46e68a4dca5d536fc2fb4fe3d5199']]
 
+
+table.r
 csv_file = (open('../commits.csv', 'w'))
 csv_write = csv.writer(csv_file)
 
-for row in table:
-    csv_write.writerow(table[row])
+for i in range(len(table)):
+    csv_write.writerow(table[i])
 
 csv_file.close()

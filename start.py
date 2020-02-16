@@ -8,10 +8,9 @@ print('Please, insert a number of repositories you want to retrieve')
 
 while True:
     try:
-        number = int(input("> "))
-    except ValueError as error:
-        print('You have inserted a number! Please try again')
-    finally:
+        number = abs(int(input("> ")))
         break
+    except ValueError as error:
+        print('You have NOT inserted a number! Please try again')
 
 print(process_api(repo, number))
