@@ -127,5 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
 # JetBrains IDE files
 .idea
+
+# output
+.csv
