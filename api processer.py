@@ -8,9 +8,27 @@ repo = json_file['repo']'''
 repo = 'freeCodeCamp/freeCodeCamp'
 url_api = 'https://api.github.com/repos/' + repo + '/commits?branch=master'
 number_commits = remaining_commits = 69
-
 last_sha = starter = last_index_commit = 0
 table = []
+
+
+def connect(url):
+    try:
+        json_received = urllib.request.urlopen(url)
+    except urllib.error.HTTPError as error:
+        # Return code error (e.g. 404, 501, ...)
+        print('HTTPError: ', error.code)
+    except urllib.error.URLError as error:
+        # Not an HTTP-specific error (e.g. connection refused)
+        print('URLError: ', error.reason)
+    finally:
+        print('Connected Successfully!')
+        # processing...
+        #json_received = urllib.request.urlopen(url)
+        json_data =  json.loads(json_received.read().decode())
+        return json_data
+
+
 
 while remaining_commits > 0:
     if remaining_commits > 30:
@@ -21,18 +39,7 @@ while remaining_commits > 0:
     if last_sha != 0:
         url_api = url_api.split('&')[0] + '&sha=' + str(last_sha)
         starter = 1
-    try:
-        json_received = urllib.request.urlopen(url_api)
-    except urllib.error.HTTPError as error:
-        # Return code error (e.g. 404, 501, ...)
-        print('HTTPError: ', error.code)
-    except urllib.error.URLError as error:
-        # Not an HTTP-specific error (e.g. connection refused)
-        print('URLError: ', error.reason)
-    finally:
-        print('Connected Successfully!')
-        # processing...
-        commits = json.loads(json_received.read().decode())
+    commits = connect(url_api)
 
     print(last_index_commit)
     for i in range(starter, last_index_commit + 1):
