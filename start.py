@@ -13,6 +13,7 @@ text_commits_count, commits_count = parse_count_commits(main_url)
 print(f'Please, insert a number of repositories you want to retrieve (max: {text_commits_count})')
 
 while True:
+    # Input errors handling
     while True:
         try:
             number = int(input("> "))
