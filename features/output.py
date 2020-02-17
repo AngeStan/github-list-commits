@@ -9,9 +9,10 @@ import csv, sqlite3, os, datetime
           "fix: force timezone to be UTC for tests (#38215)react-calendar-heatmap's output depends on the timezone, which meansthat snapshots can fail if the timezone changes.  This sets the timezoneas UTC during client tests to avoid that problem.",
           'https://github.com/freeCodeCamp/freeCodeCamp/commit/cc79999a31b46e68a4dca5d536fc2fb4fe3d5199']]'''
 
+now = datetime.datetime.now().strftime('%Y-%m-%d %H.%M.%S')
+
 
 def export_csv(table):
-    now = datetime.datetime.now().strftime('%Y-%m-%d %H.%M.%S')
     file_name = f"commits {now}.csv"
     csv_file = open(file_name, 'w', newline='')
     csv_write = csv.DictWriter(csv_file, ["SHA", "Message", "URL"])
@@ -19,34 +20,28 @@ def export_csv(table):
     for i in range(len(table)):
         csv_write.writerow({"SHA": table[i][0], "Message": table[i][1], "URL": table[i][2]})
     csv_file.close()
-    print(f'CSV file "{file_name}" saved in "{os.getcwd()}"')
+    print(f'CSV file saved: "{os.path.join(os.getcwd(), file_name)}"')
 
 
 def export_db(table):
-    # if the database exists already, it will make sure to clean the table, before recreating it
-    database_exists = False
-    if os.path.exists("commits.db"):
-        database_exists = True
-
+    # establish connection with the database
     connection = sqlite3.connect("commits.db")
     cursor = connection.cursor()
 
-    if database_exists:
-        cursor.execute("""DROP TABLE commits;""")
-
-    sql_command = """
-    CREATE TABLE commits ( 
-    commit_num INTEGER PRIMARY KEY, 
-    Sha VARCHAR(40), 
+    # create new table named as up-to-date date & time
+    sql_command = f'''
+    CREATE TABLE "{now}" (
+    SHA VARCHAR(40), 
     Message VARCHAR(1000), 
-    Url CHAR(100));"""
+    URL CHAR(100));'''
     cursor.execute(sql_command)
 
     for i in range(len(table)):
-        sql_command = f'''INSERT INTO commits (commit_num, Sha, Message, Url)
-        VALUES (NULL, "{table[i][0]}", "{table[i][1]}", "{table[i][2]}");'''
+        sql_command = f'''INSERT INTO "{now}" (SHA, Message, URL)
+        VALUES ("{table[i][0]}", "{table[i][1]}", "{table[i][2]}");'''
         cursor.execute(sql_command)
 
     connection.commit()  # save the changes in the database
     connection.close()
-    print(f'Database "commits.db" saved/updated in "{os.getcwd()}": You can open/refresh it with a lightweight db manager')
+    print('Created table "{}" in database "{}":\nYou can open/refresh it with a lightweight database manager' \
+          .format((now), (os.path.join(os.getcwd(), "commits.db"))))
