@@ -1,5 +1,5 @@
 # github-list-commits
-Tool to retreive a list of commits of a chosen Repo, 
+(Python) Tool to retreive a list of commits of a chosen Repo.
 The current default repo is http://github.com/freeCodeCamp/freeCodeCamp for branch master.
 
 # Methodology
