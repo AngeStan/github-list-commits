@@ -3,7 +3,6 @@ import urllib.request, urllib.error, json
 
 def process_api(author_repo, number_commits):
     url_api = 'https://api.github.com/repos/' + author_repo + '/commits?branch=master'
-    remaining_commits = number_commits
     last_sha = starter = 0
     table = []
 
@@ -23,7 +22,7 @@ def process_api(author_repo, number_commits):
             json_data = json.loads(json_received.read().decode())
             return json_data
 
-    while remaining_commits > 0:
+    while number_commits > 0:
         if last_sha != 0:
             url_api = url_api.split('&')[0] + '&sha=' + str(last_sha)
             starter = 1
@@ -32,9 +31,9 @@ def process_api(author_repo, number_commits):
         for i in range(starter, 30):
             last_sha = commits[i]['sha']
             table.append([last_sha, commits[i]['commit']['message'], commits[i]['html_url']])
-            remaining_commits -= 1
-            print(remaining_commits)
-            if remaining_commits == 0:
+            number_commits -= 1
+            print(number_commits)
+            if number_commits == 0:
                 break
 
     # Texts in "Message" column adjustments

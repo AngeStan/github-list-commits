@@ -1,4 +1,4 @@
-import requests, bs4
+from features.html_parser import *
 from features.api_processor import *
 from features.output import *
 author = "freeCodeCamp"
@@ -9,15 +9,7 @@ print(f'''Welcome to the Git List Retriever Tool\n\
 This program lets you retrieve a number (of your choice) \
 of commits from a selected repo.\nThe default repository is "{author}/{repo}" in branch "master"\n''')
 
-# the following block of code is to count the total number of up-to-date commits in "master"
-master_url = f"{main_url}/tree/master"  # generation of the "master" branch
-html_page = requests.get(master_url)
-soup = bs4.BeautifulSoup(html_page.text, features="html.parser")
-box = soup.select('.commits > a:nth-child(1) > span:nth-child(2)')  # interested CSS selection
-text_commits_count = box[0].getText()
-text_commits_count = text_commits_count.replace(" ", "")
-text_commits_count = text_commits_count.replace("\n", "")
-commits_count = int(text_commits_count.replace(",", ""))
+text_commits_count, commits_count = parse_count_commits(main_url)
 
 print(f'Please, insert a number of repositories you want to retrieve (max: {text_commits_count})')
 
@@ -35,7 +27,6 @@ while True:
             print(f"'{number}' is too much! Total of available commits to retrieve is '{text_commits_count}'")
             continue
         break
-
 
 table = process_api(f'{author}/{repo}', number)
 export_csv(table)
