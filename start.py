@@ -39,3 +39,4 @@ while True:
 
 table = process_api(f'{author}/{repo}', number)
 export_csv(table)
+export_db(table)
