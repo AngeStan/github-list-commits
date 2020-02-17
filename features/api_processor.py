@@ -26,7 +26,6 @@ def process_api(author_repo, number_commits):
         if last_sha != 0:  # if line 33 already executed
             url_api = url_api.split('&')[0] + '&sha=' + str(last_sha)  # add/change the parameter SHA
             starter = 1  # line 32 will skip the first commit (duplicate)
-
         commits = connect(url_api)
 
         # code to populate the list "table" with SHA, Message, URL in each row of it

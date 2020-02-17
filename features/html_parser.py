@@ -1,10 +1,9 @@
 import requests, bs4
 
 
-# the following block of code is to count the total number of up-to-date commits in "master"
-def parse_count_commits(base_url, branch='master'):
-    master_url = f"{base_url}/tree/{branch}"  # generation of the branch page url
-    html_page = requests.get(master_url)
+def parse_count_commits(base_url, branch='master'):  # count the total number of up-to-date commits in "master"
+    branch_page = f"{base_url}/tree/{branch}"
+    html_page = requests.get(branch_page)
     while True:
         try:
             html_page.raise_for_status()
@@ -13,10 +12,10 @@ def parse_count_commits(base_url, branch='master'):
             input(f'There was a problem while getting the web page: {exc}.\nPress Enter to retry\n>')
             continue
 
-    soup = bs4.BeautifulSoup(html_page.text, features="html.parser")
-    box = soup.select('.commits > a:nth-child(1) > span:nth-child(2)')  # interested CSS selection
-    text = box[0].getText()
-    text = text.replace(" ", "")
-    text = text.replace("\n", "")
-    count = int(text.replace(",", ""))
+    soup = bs4.BeautifulSoup(html_page.text, features="html.parser")  # object with class "bs4" must be created
+    element = soup.select('.commits > a:nth-child(1) > span:nth-child(2)')  # interested CSS selection
+    text = element[0].getText()  # to get the text out of a list from html
+    text = text.replace(" ", "")  # removed blank spaces...
+    text = text.replace("\n", "")  # ...and new lines from this html element
+    count = int(text.replace(",", ""))  # removes eventual comma and get integer version
     return text, count
