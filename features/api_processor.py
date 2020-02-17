@@ -1,8 +1,8 @@
 import urllib.request, urllib.error, json
 
 
-def process_api(repo, number_commits):
-    url_api = 'https://api.github.com/repos/' + repo + '/commits?branch=master'
+def process_api(author_repo, number_commits):
+    url_api = 'https://api.github.com/repos/' + author_repo + '/commits?branch=master'
     remaining_commits = number_commits
     last_sha = starter = 0
     table = []
