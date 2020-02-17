@@ -37,9 +37,11 @@ def process_api(author_repo, number_commits):
             if remaining_commits == 0:
                 break
 
-    for row in range(len(table)):  # remove new lines
-        table[row][1] = table[row][1].replace("\n", "")
-        table[row][1] = table[row][1].replace("\r", "")
+    # Texts in "Message" column adjustments
+    for row in range(len(table)):
+        table[row][1] = table[row][1].replace("\n", "")  # removes windows:[newline] chars
+        table[row][1] = table[row][1].replace("\r", "")  # removes mac:[newline] chars
+        table[row][1] = table[row][1].replace('"', "'")  # swipes " with ' to avoid SQL conflicts
 
     # print(len(table))
     return table

@@ -1,4 +1,4 @@
-import csv, sqlite3, os
+import csv, sqlite3, os, datetime
 
 '''table = [['bb06330b639c4a212d9472091ee2cbc16fe9e7ae', 'docs: update link to coc',
           'https://github.com/freeCodeCamp/freeCodeCamp/commit/bb06330b639c4a212d9472091ee2cbc16fe9e7ae'],
@@ -11,12 +11,15 @@ import csv, sqlite3, os
 
 
 def export_csv(table):
-    csv_file = open('commits.csv', 'w', newline='')
+    now = datetime.datetime.now().strftime('%Y-%m-%d %H.%M.%S')
+    file_name = f"commits {now}.csv"
+    csv_file = open(file_name, 'w', newline='')
     csv_write = csv.DictWriter(csv_file, ["SHA", "Message", "URL"])
     csv_write.writeheader()
     for i in range(len(table)):
         csv_write.writerow({"SHA": table[i][0], "Message": table[i][1], "URL": table[i][2]})
     csv_file.close()
+    print(f'CSV file "{file_name}" saved in "{os.getcwd()}"')
 
 
 def export_db(table):
@@ -46,4 +49,4 @@ def export_db(table):
 
     connection.commit()  # save the changes in the database
     connection.close()
-    print(f'Database saved in "{os.getcwd()}"\nYou can open it as a lightweight database file.')
+    print(f'Database "commits.db" saved/updated in "{os.getcwd()}": You can open/refresh it with a lightweight db manager')
