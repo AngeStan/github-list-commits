@@ -10,8 +10,8 @@ This program lets you retrieve a number (of your choice) \
 of commits from a selected repo.\nThe default repository is "{author}/{repo}" in branch "master"\n''')
 
 text_commits_count, commits_count = parse_count_commits(main_url)
-
 print(f'Please, insert a number of repositories you want to retrieve (max: {text_commits_count})')
+
 while True:
     while True:
         try:
