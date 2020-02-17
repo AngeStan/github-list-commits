@@ -22,7 +22,7 @@ def process_api(author_repo, number_commits):
     table = []
 
     while number_commits > 0:
-        print('...')
+        print('...', end='')
         if last_sha != 0:  # if line 33 already executed
             url_api = url_api.split('&')[0] + '&sha=' + str(last_sha)  # add/change the parameter SHA
             starter = 1  # line 32 will skip the first commit (duplicate)
@@ -34,7 +34,7 @@ def process_api(author_repo, number_commits):
             last_sha = commits[i]['sha']  # SHA kept in memory to now if this block runs more then one times
             table.append([last_sha, commits[i]['commit']['message'], commits[i]['html_url']])
             number_commits -= 1  # remaining commits decreases
-
+    print('')
     # Adjustments of the texts in "Message"
     for row in range(len(table)):
         table[row][1] = table[row][1].replace("\n", "")  # removes windows:[newline] chars

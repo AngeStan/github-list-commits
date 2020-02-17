@@ -1,9 +1,8 @@
 import csv, sqlite3, os, datetime
 
-now = datetime.datetime.now().strftime('%Y-%m-%d %H.%M.%S')  # string "now" is a formatted current time
-
 
 def export_csv(table):
+    now = datetime.datetime.now().strftime('%Y-%m-%d %H.%M.%S')  # string "now" is a formatted current time
     file_name = f"commits {now}.csv"
     csv_file = open(file_name, 'w', newline='')
     csv_write = csv.DictWriter(csv_file, ["SHA", "Message", "URL"])  # define the header of the CSV
@@ -15,6 +14,7 @@ def export_csv(table):
 
 
 def export_db(table):
+    now = datetime.datetime.now().strftime('%Y-%m-%d %H.%M.%S')  # string "now" is a formatted current time
     # establish connection with the database
     connection = sqlite3.connect("commits.db")
     cursor = connection.cursor()
@@ -34,5 +34,5 @@ def export_db(table):
 
     connection.commit()  # save the changes in the database
     connection.close()
-    print('Created table "{}" in database "{}":\nYou can open/refresh it with a lightweight database manager' \
+    print('Created table "{}" in database "{}":\nyou can open/refresh it with a lightweight database manager' \
           .format((now), (os.path.join(os.getcwd(), "commits.db"))))

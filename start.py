@@ -18,7 +18,7 @@ while True:
         try:
             number = int(input("> "))
         except ValueError as error:
-            print('You have NOT inserted a number!')
+            print('You have NOT inserted an integer!')
             continue
         finally:
             if number <= 0:
