@@ -30,9 +30,12 @@ def process_api(author_repo, number_commits):
 
         # code to populate the list "table" with SHA, Message, URL in each row of it
         for i in range(starter, 30):  # max 30 times due to the api of GitHub
-            last_sha = commits[i]['sha']  # SHA kept in memory to now if this block runs more then one times
+            last_sha = commits[i]['sha']  # SHA kept in memory to now if this block runs more then one time
             table.append([last_sha, commits[i]['commit']['message'], commits[i]['html_url']])
             number_commits -= 1  # remaining commits decreases
+            if number_commits == 0:
+                break
+
     print('')
     # Adjustments of the texts in "Message"
     for row in range(len(table)):
