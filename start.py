@@ -10,8 +10,10 @@ print(f'''Welcome to the Git List Retriever Tool\n\
 This program lets you retrieve a number (of your choice) \
 of commits from a selected repo.\nThe default repository is "{author}/{repo}" in branch "master"\n''')
 
-text_commits_count, commits_count = parse_count_commits(main_url)  # call function in html_parser.py
-print(f'Please, insert a number of repositories you want to retrieve (max: {text_commits_count})')
+text_commits_count, commits_count = parse_count_commits(
+    main_url)  # call function in html_parser.py
+print(
+    f'Please, insert a number of repositories you want to retrieve (max: {text_commits_count})')
 
 while True:
     while True:
@@ -20,14 +22,14 @@ while True:
         except ValueError as error:
             print('You have NOT inserted an integer!')
             continue
-        finally:
-            if number <= 0:
-                print("Please choose at least 1 commit to get.")
-                continue
-            elif number > commits_count:
-                print(f"'{number}' is too much! Total of available commits to retrieve is '{text_commits_count}'")
-                continue
-            break
+        if number <= 0:
+            print("Please choose at least 1 commit to get.")
+            continue
+        elif number > commits_count:
+            print(
+                f"'{number}' is too much! Total of available commits to retrieve is '{text_commits_count}'")
+            continue
+        break
 
     table = process_api(f'{author}/{repo}', number)
     export_csv(table)
